@@ -1,0 +1,63 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+ - name: Загрузить артефакт сборки
+uses: actions/download-artifact@v6.0.0
+ with:
+ # Имя артефакта для загрузки. Если не указано, загружаются все артефакты для запуска.
+ name: site.html
+ # Идентификаторы артефактов для загрузки, разделенные запятыми. Можно использовать либо входные данные `artifact-ids`, либо `name`, но не оба параметра.
+ artifact-ids: # необязательно
+ # Путь назначения. Поддерживает базовое расширение тильды. По умолчанию используется $GITHUB_WORKSPACE
+ path: # необязательно
+ # Шаблон подстановки, соответствующий артефактам, которые необходимо загрузить. Игнорируется, если указано имя.
+ pattern: # необязательно
+ # При совпадении нескольких артефактов это меняет поведение целевых каталогов. Если true, загруженные артефакты будут находиться в том же каталоге, который указан в path. Если false, загруженные артефакты будут извлечены в отдельные каталоги с именами в указанном пути.
+ merge-multiple: # необязательно, по умолчанию false
+ # Токен GitHub, используемый для аутентификации с помощью GitHub API. Это требуется при загрузке артефактов из другого репозитория или при другом запуске рабочего процесса. Если это не указано, действие попытается загрузить артефакты из текущего репозитория и запустить текущий рабочий процесс.
+ github-token: # необязательно
+ # Владелец репозитория и имя репозитория соединяются символом "/". Если указан github-token, то это репозиторий, из которого будут загружаться артефакты.
+ репозиторий: # необязательно, по умолчанию ${{ github.repository }}
+ # Идентификатор выполнения рабочего процесса, в ходе которого был загружен нужный для скачивания артефакт. Если указан github-token, то артефакты будут загружены из этого выполнения.
+ идентификатор выполнения: # необязательно, по умолчанию ${{ github.run_id }}
+ 
